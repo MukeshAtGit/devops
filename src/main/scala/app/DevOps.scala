@@ -17,7 +17,7 @@ import scala.util.{ Failure, Success }
     private val routes = new Controller
     private val serverBinding: Future[Http.ServerBinding] =
       Http().bindAndHandle(routes.routes,"localhost",8000 )
-    val listName=List[String]("mukesh","anshika","munna","anuj")
+    val listName=List[String]("mukesh","sachin","munna","anuj")
 
     serverBinding.onComplete {
       case Success(bound) =>
