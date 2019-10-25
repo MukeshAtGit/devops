@@ -1,3 +1,7 @@
-FROM openjdk:8-jre-alpine
+ARG CODE_VERSION=8
+FROM openjdk:${code_VERSION}-jre-alpine
 COPY target/scala-2.12/devops-assembly-0.1.jar /
+CMD java -jar devops-assembly-0.2.jar
+CMD java -jar devops-assembly-0.3.jar
 CMD java -jar devops-assembly-0.1.jar
+
