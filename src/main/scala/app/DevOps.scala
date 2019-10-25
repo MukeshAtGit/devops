@@ -1,6 +1,5 @@
 package app
 
-
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
@@ -20,6 +19,7 @@ import scala.util.{ Failure, Success }
       case Success(bound) =>
         println(
           s"Server online at http://${ bound.localAddress.getHostName }:${ bound.localAddress.getPort }/")
+
       case Failure(error) =>
         Http()(system)
           .shutdownAllConnectionPools()
