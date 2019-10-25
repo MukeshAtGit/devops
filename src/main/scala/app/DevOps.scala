@@ -21,6 +21,10 @@ import scala.util.{ Failure, Success }
       case Success(bound) =>
         println(
           s"Server online at http://${ bound.localAddress.getHostName }:${ bound.localAddress.getPort }/")
+        Thread.sleep(2000)
+        Http()(system)
+          .shutdownAllConnectionPools()
+        system.terminate()
 
       case Failure(error) =>
         Http()(system)
