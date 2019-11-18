@@ -33,7 +33,7 @@ stage("docker tag"){
   }
   stage("docker run"){
  steps {
-sh "docker run -d -p 8000:8000 mukesh236/devops"
+sh "ssh ec2-user@18.191.18.209 docker run -d -p 8000:8000 mukesh236/devops"
 }
   }
 
