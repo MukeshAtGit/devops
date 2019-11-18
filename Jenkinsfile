@@ -12,7 +12,7 @@ pipeline {
   }
   stage("docker build"){
      sh 'docker build -t assignment .'
-     sh 'docker tag assignment mukesh236\assignment'
+     sh 'docker tag assignment mukesh236/assignment'
   }
   stage("docker push"){
      sh 'docker push mukesh236/assignment'
