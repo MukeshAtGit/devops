@@ -1,23 +1,23 @@
 pipeline {
   stages {
   stage('compile'){
-      script: 'sbt clean compile'
+     sbt clean compile
   }
   stage('test'){
-      script: 'sbt test'
+     sbt test
   }
   stage('making artifact'){
-       script: 'sbt assembly'
+       sbt assembly
   }
   stage("docker build"){
-      script: 'docker build -t assignment .'
-      script: 'docker tag assignment mukesh236/assignment'
+      docker build -t assignment .
+      docker tag assignment mukesh236/assignment
   }
   stage("docker push"){
-       script: 'docker push mukesh236/assignment'
+      docker push mukesh236/assignment
   }
   stage("ssh congfigure"){
-        script:'ssh ec2-user@18.191.18.209 docker run -d -p 8090:8000 mukesh236/assignment:latest'
+       ssh ec2-user@18.191.18.209 docker run -d -p 8090:8000 mukesh236/assignment:latest
   }
 }
 }
