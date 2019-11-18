@@ -23,8 +23,13 @@ stage("docker tag"){
   }
   stage("check for running container"){
  steps {
-    sh ''' if("ssh ec2-user@18.191.18.209 docker ps --format '{{.Image}}'"==mukesh236/devops) then
-          echo "goood"'''
+    sh ''' if("ssh ec2-user@18.191.18.209 docker ps --format '{{.Image}}'"==gallant_elgamal) then
+          echo "goood"''''''if [ "$(ssh ec2-user@18.191.18.209 docker ps -q -f name=gallant_elgamal)" ]; then
+                                              if [ $(docker inspect -f '{{.State.Running}}' gallant_elgamal) = "true" ]; then
+                                                  docker rm -f gallant_elgamal
+                                              fi
+                                                  docker run -d -p 8000:8000 --name mukesh-devops mukesh236/devops
+                                              fi'''
  
 }
   }
