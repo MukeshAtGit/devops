@@ -2,22 +2,22 @@ pipeline {
     agent any 
   stages {
   stage('compile'){
-    sh  'sbt clean compile'
+    sh  "sbt clean compile"
   }
   stage('test'){
-    sh 'sbt test'
+    sh "sbt test"
   }
   stage('making artifact'){
-     sh 'sbt assembly'
+     sh "sbt assembly"
   }
   stage("docker build"){
-     sh 'docker build -t assignment .'
+     sh "docker build -t assignment ."
          }
 stage("docker tag"){
-     sh 'docker tag assignment mukesh236/assignment'
+     sh "docker tag assignment mukesh236/assignment"
   }
   stage("docker push"){
-     sh 'docker push mukesh236/assignment'
+     sh "docker push mukesh236/assignment"
   }
 }
 }
