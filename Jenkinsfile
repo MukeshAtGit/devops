@@ -1,4 +1,5 @@
 pipeline {
+  stages {
   stage('compile'){
       sh label: '', script: 'sbt clean compile'
   }
