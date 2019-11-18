@@ -6,11 +6,6 @@ pipeline {
     sh  "sbt clean compile"
 }
   }
-  stage('test'){
- steps {
-    sh "sbt test"
-}
-  }
   stage('making artifact'){
  steps {
      sh "sbt assembly"
@@ -29,6 +24,13 @@ stage("docker tag"){
   stage("docker push"){
  steps {
      sh "docker push mukesh236/assignment"
+}
+  }
+  stage("check for running container"){
+ steps {
+if (sh "ssh ec2-user@18.191.18.209 docker ps --format '{{.Image}}'"==mukesh236/devops)
+  { echo "goood"
+}
 }
   }
   stage("docker run"){
