@@ -1,11 +1,6 @@
 pipeline {
     agent any 
   stages {
-  stage('compile'){
- steps {
-    sh  "sbt clean compile"
-}
-  }
   stage('making artifact'){
  steps {
      sh "sbt assembly"
@@ -27,8 +22,7 @@ stage("docker tag"){
 }
   }
   stage("check for running container"){
- steps {
-if (sh "ssh ec2-user@18.191.18.209 docker ps --format '{{.Image}}'"==mukesh236/devops)
+ steps {def names="ssh ec2-user@18.191.18.209 docker ps --format '{{.Image}}'"
   { echo "goood"
 }
 }
