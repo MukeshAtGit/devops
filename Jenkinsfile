@@ -31,5 +31,11 @@ stage("docker tag"){
      sh "docker push mukesh236/assignment"
 }
   }
+  stage("docker run"){
+ steps {
+docker run -d -p 8000:8000 mukesh236/devops"
+}
+  }
+
 }
 }
