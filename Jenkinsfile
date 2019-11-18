@@ -22,9 +22,9 @@ stage("docker tag"){
 }
   }
   stage("check for running container"){
- steps {def names=sh "ssh ec2-user@18.191.18.209 docker ps --format '{{.Image}}'"
-  { echo "goood"
-}
+ steps {
+def names=sh "ssh ec2-user@18.191.18.209 docker ps --format '{{.Image}}'"
+ echo "goood"
 }
   }
 }
