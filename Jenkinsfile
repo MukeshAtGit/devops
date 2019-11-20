@@ -3,6 +3,7 @@ pipeline {
   stages {
   stage('making artifact'){
  steps {
+     echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
      sh "sbt assembly"
   }
 }
@@ -32,12 +33,6 @@ stage("docker tag"){
  
 }
   }
-      post {
-        failure {
-            mail to: 'mukeshyadav236@gmail.com', from: 'mukku2306@gmail.com',
-                subject: "build seccess", 
-                body: "Job Failed - \"${env.JOB_NAME}\" build: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
-        }
-    }
+
 }
 }
