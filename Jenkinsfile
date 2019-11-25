@@ -1,5 +1,6 @@
 pipeline {
     agent any 
+    when { changeRequest branch 'master' } 
   stages {
   stage('making artifact'){
  steps {
