@@ -2,7 +2,7 @@ pipeline {
     agent any 
   stages {
   stage('making artifact'){
-  when { changeRequest branch 'master' } 
+  when { branch 'master' } 
  steps {
      sh "sbt assembly"
   }
