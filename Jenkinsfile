@@ -1,10 +1,9 @@
 pipeline {
     agent any 
-    when { changeRequest branch 'master' } 
   stages {
   stage('making artifact'){
+  when { changeRequest branch 'master' } 
  steps {
-     echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
      sh "sbt assembly"
   }
 }
