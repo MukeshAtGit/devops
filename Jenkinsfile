@@ -44,7 +44,7 @@ when { anyOf { branch 'master'; branch 'devlop' } }
   when { branch 'master' }
       agent {label 'slave_ubuntu'} 
  steps {
-    sh "docker run -d -p 8000:8000 --name mukesh-devops:$ISOLATION_ID mukesh236/devops"
+    sh "docker run -d -p 8000:8000 --name mukesh-devops mukesh236/assignment:$ISOLATION_ID"
 }
   }
 
