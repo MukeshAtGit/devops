@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'slave_ubuntu'} 
+    agent {label 'master'} 
   stages {
   stage('Compiling'){
 
@@ -40,6 +40,7 @@ when { anyOf { branch 'master'; branch 'devlop' } }
   stage("check for running container"){
   when { branch 'master' }
  steps {
+      agent {label 'slave_ubuntu'} 
     sh '''if [ "$(docker ps -q -f name=mukesh-devops)" ]; then
                                               if [ $(docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
                                                   docker rm -f mukesh-devops
