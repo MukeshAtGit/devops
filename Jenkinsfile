@@ -40,7 +40,11 @@ when { anyOf { branch 'master'; branch 'devlop' } }
   stage("check for running container"){
   when { branch 'master' }
  steps { agent { label 'slave_ubuntu' }
-    sh "docker run -d -p 8000:8000 --name mukesh-devops mukesh236/devops"
+    sh '''if [ $(docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
+                                                  docker rm -f mukesh-devops
+                                              fi
+                                                  docker run -d -p 8000:8000 --name mukesh-devops mukesh236/devops
+                                              fi'''
  
 }
   }
