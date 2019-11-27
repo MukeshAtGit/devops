@@ -28,7 +28,7 @@ pipeline {
 stage("docker tag"){
 when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
-     sh "docker tag assignment mukesh236/assignment:latest"
+     sh "docker tag assignment mukesh236/assignment"
 }
   }
   stage("docker push"){
