@@ -1,22 +1,33 @@
 pipeline {
-    agent any 
+    agent {label 'master'} 
+    environment {
+        ISOLATION_ID = sh(returnStdout: true, script: 'printf $BUILD_TAG | sha256sum | cut -c1-64').trim()
+    }
   stages {
   stage('Compiling'){
 
    steps {
-       sh "sbt compile"
+       sh "${tool name: 'sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt compile"
     }
   }
    stage('Testing'){
-
+       parallel {
+           stage('ControllerSpec Testing'){
      steps {
-         sh "sbt test"
+         sh "${tool name: 'sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt 'testOnly ControllerSpec' "
       }
     }
+           stage('CubeCalculatorTest Testing'){
+       steps {
+         sh "${tool name: 'sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt 'testOnly CubeCalculatorTest'"
+      }
+    }
+   }
+   }
   stage('making artifact'){
   when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
-     sh "sbt assembly"
+     sh "${tool name: 'sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt assembly"
   }
 }
   stage("docker build"){
@@ -28,24 +39,24 @@ pipeline {
 stage("docker tag"){
 when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
-     sh "docker tag assignment mukesh236/assignment"
+     sh "docker tag assignment mukesh236/assignment:$ISOLATION_ID"
 }
   }
   stage("docker push"){
   when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
-     sh "docker push mukesh236/assignment"
+     sh "docker push mukesh236/assignment:$ISOLATION_ID"
 }
   }
   stage("check for running container"){
   when { branch 'master' }
- steps { agent { label 'slave_ubuntu' }
+      agent {label 'slave_ubuntu'} 
+ steps {
     sh '''if [ $(docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
                                                   docker rm -f mukesh-devops
                                               fi
-                                                  docker run -d -p 8000:8000 --name mukesh-devops mukesh236/devops
-                                              fi'''
- 
+                                                 docker run -d -p 8000:8000 --name mukesh-devops mukesh236/assignment:$ISOLATION_ID
+                                              '''
 }
   }
 
