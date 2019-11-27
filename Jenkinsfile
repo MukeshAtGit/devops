@@ -56,7 +56,7 @@ when { anyOf { branch 'master'; branch 'devlop' } }
                                                   docker rm -f mukesh-devops
                                               fi
                                                  docker run -d -p 8000:8000 --name mukesh-devops mukesh236/assignment:$ISOLATION_ID
-                                              fi'''
+                                              '''
 }
   }
 
