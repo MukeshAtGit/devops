@@ -1,5 +1,8 @@
 pipeline {
     agent {label 'master'} 
+    environment {
+        ISOLATION_ID = sh(returnStdout: true, script: 'printf $BUILD_TAG | sha256sum | cut -c1-64').trim()
+    }
   stages {
   stage('Compiling'){
 
@@ -28,20 +31,20 @@ pipeline {
 stage("docker tag"){
 when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
-     sh "docker tag assignment mukesh236/assignment"
+     sh "docker tag assignment mukesh236/assignment:$ISOLATION_ID"
 }
   }
   stage("docker push"){
   when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
-     sh "docker push mukesh236/assignment"
+     sh "docker push mukesh236/assignment:$ISOLATION_ID"
 }
   }
   stage("check for running container"){
   when { branch 'master' }
       agent {label 'slave_ubuntu'} 
  steps {
-    sh "docker run -d -p 8000:8000 --name mukesh-devops mukesh236/devops"
+    sh "docker run -d -p 8000:8000 --name mukesh-devops mukesh236/devops:$ISOLATION_ID"
 }
   }
 
