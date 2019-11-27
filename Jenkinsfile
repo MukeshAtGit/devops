@@ -12,15 +12,17 @@ pipeline {
   }
    stage('Testing'){
        parallel {
-
+           stage('ControllerSpec Testing'){
      steps {
          sh "${tool name: 'sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt 'testOnly ControllerSpec' "
       }
     }
+           stage('CubeCalculatorTest Testing'){
        steps {
          sh "${tool name: 'sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt 'testOnly CubeCalculatorTest'"
       }
     }
+   }
    }
   stage('making artifact'){
   when { anyOf { branch 'master'; branch 'devlop' } }
