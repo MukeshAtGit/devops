@@ -1,5 +1,5 @@
 pipeline {
-    agent any 
+    agent {label 'master'} 
   stages {
   stage('making artifact'){
   when { branch 'master' } 
@@ -23,12 +23,13 @@ stage("docker tag"){
 }
   }
   stage("check for running container"){
+      agent {label 'slave_ubuntu'
  steps {
-    sh '''if [ "$(ssh ec2-user@18.191.18.209 docker ps -q -f name=mukesh-devops)" ]; then
-                                              if [ $(ssh ec2-user@18.191.18.209 docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
-                                                  ssh ec2-user@18.191.18.209 docker rm -f mukesh-devops
+    sh '''if [ "$(docker ps -q -f name=mukesh-devops)" ]; then
+                                              if [ $(docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
+                                                  docker rm -f mukesh-devops
                                               fi
-                                                  ssh ec2-user@18.191.18.209 docker run -d -p 8000:8000 --name mukesh-devops mukesh236/devops
+                                                  docker run -d -p 8000:8000 --name mukesh-devops mukesh236/devops
                                               fi'''
  
 }
