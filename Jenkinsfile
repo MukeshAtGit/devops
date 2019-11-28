@@ -61,4 +61,9 @@ when { anyOf { branch 'master'; branch 'devlop' } }
   }
 
 }
+    post { 
+        always { 
+           mail bcc: '', body: """Check console output at ${env.BUILD_URL} of ${env.JOB_NAME}""", cc: '', from: '', replyTo: '', subject: 'Build Detail', to: 'mukesh.yadav@knoldus.com'
+        }
+    }
 }
