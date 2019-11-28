@@ -1,3 +1,4 @@
+
 import org.scalatest.FunSuite
 
 class CubeCalculatorTest extends FunSuite {

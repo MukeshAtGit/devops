@@ -1,6 +1,4 @@
 
-package com.knoldus.controllerspec
-
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import controller.Controller
