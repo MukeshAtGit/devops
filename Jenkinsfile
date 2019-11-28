@@ -67,3 +67,4 @@ when { anyOf { branch 'master'; branch 'devlop' } }
         }
     }
 }
+
