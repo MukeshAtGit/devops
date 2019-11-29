@@ -14,7 +14,7 @@ import scala.util.{ Failure, Success }
     implicit val materialize: ActorMaterializer =ActorMaterializer()
     private val routes = new Controller
     private val serverBinding: Future[Http.ServerBinding] =
-      Http().bindAndHandle(routes.routes,"0.0.0.0",8000 )
+      Http().bindAndHandle(routes.routes,"localhost",8000 )
     serverBinding.onComplete {
       case Success(bound) =>
         println(
