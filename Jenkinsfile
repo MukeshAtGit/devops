@@ -53,7 +53,7 @@ when { anyOf { branch 'master'; branch 'devlop' } }
   when { branch 'master' }
       agent {label 'slave_ubuntu'} 
  steps {
-    sh '''''if [ ! "$(docker ps -q -f name=mukesh-devops)" ]; then
+    sh '''''if [ "$(docker ps -q -f name=mukesh-devops)"!="" ]; then
     if [ $(docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
                                                   docker rm -f mukesh-devops
                                               fi
