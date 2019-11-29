@@ -27,6 +27,7 @@ pipeline {
   stage('making artifact'){
   when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
+     sh "echo Branch Name: ${env.BRANCH_NAME}"
      sh "${tool name: 'sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt assembly"
   }
 }
