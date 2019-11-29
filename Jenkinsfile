@@ -7,6 +7,7 @@ pipeline {
   stage('Compiling'){
 
    steps {
+       sh "echo Branch Name: ${env.BRANCH_NAME}"
        sh "${tool name: 'sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt compile"
     }
   }
