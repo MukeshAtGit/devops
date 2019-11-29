@@ -26,31 +26,27 @@ pipeline {
    }
    }
   stage('making artifact'){
-  when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
      sh "${tool name: 'sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt assembly"
   }
 }
   stage("docker build"){
-  when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
      sh "docker build -t assignment ."
 }
          }
 stage("docker tag"){
-when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
      sh "docker tag assignment mukesh236/assignment:$ISOLATION_ID"
 }
   }
   stage("docker push"){
-  when { anyOf { branch 'master'; branch 'devlop' } }
  steps {
      sh "docker push mukesh236/assignment:$ISOLATION_ID"
 }
   }
   stage("check for running container"){
-  when { branch 'master' }
+  when { branch 'devlop' }
       agent {label 'slave_ubuntu'} 
  steps {
     sh '''if [ $(docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
@@ -59,7 +55,6 @@ when { anyOf { branch 'master'; branch 'devlop' } }
                                                  docker run -d -p 8000:8000 --name mukesh-devops mukesh236/assignment:$ISOLATION_ID
                                               '''
 }
-  }
-
+}
 }
 }
