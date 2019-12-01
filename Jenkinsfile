@@ -53,12 +53,14 @@ when { anyOf { branch 'master'; branch 'devlop' } }
   when { branch 'master' }
       agent {label 'slave_ubuntu'} 
  steps {
-    sh '''''if [ "$(docker ps -q -f name=mukesh-devops)"!="" ]; then
-    if [ $(docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
-                                                  docker rm -f mukesh-devops
-                                              fi
-                                                 docker run -d -p 8000:8000 --name mukesh-devops mukesh236/assignment:$ISOLATION_ID
-                                              '''
+     sh '''if [ $(docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
+  docker rm -f mukesh-devops
+  fi
+                                               if [ "$(docker ps -aq -f status=exited -f name=mukesh-devops)" ]; then
+                                                   docker rm mukesh-devops
+                                               fi
+                                                   docker run -d -p 8000:8000 --name mukesh-devops mukesh236/assignment
+                                               '''
 }
   }
 
