@@ -53,7 +53,7 @@ stage("docker tag"){
                                                if [ "$(docker ps -aq -f status=exited -f name=mukesh-devops)" ]; then
                                                    docker rm mukesh-devops
                                                fi
-                                                   docker run -d -p 4200:4200 --name mukesh-devops mukesh236/assignment
+                                                   docker run -d -p 8000:8000 --name mukesh-devops mukesh236/assignment
                                                fi'''
 }
 }
