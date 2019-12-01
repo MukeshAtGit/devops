@@ -49,12 +49,18 @@ stage("docker tag"){
   when { branch 'devlop' }
       agent {label 'slave_ubuntu'} 
  steps {
-    sh '''if [ $(docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
-                                                  docker rm -f mukesh-devops
-                                              fi
-                                                 docker run -d -p 8000:8000 --name mukesh-devops mukesh236/assignment:$ISOLATION_ID
-                                              '''
+    sh '''if [ ! "$(docker ps -q -f name=mukesh-devops)" ]; then
+                                               if [ "$(docker ps -aq -f status=exited -f name=mukesh-devops)" ]; then
+                                                   docker rm mukesh-devops
+                                               fi
+                                                   docker run -d -p 4200:4200 --name mukesh-devops mukesh236/assignment
+                                               fi'''
 }
 }
 }
+    post { 	
+        always { 	
+           mail bcc: '', body: """Check console output at ${env.BUILD_URL} of ${env.JOB_NAME}""", cc: '', from: '', replyTo: '', subject: 'Build Detail', to: 'mukesh.yadav@knoldus.com'	
+        }	
+    }
 }
