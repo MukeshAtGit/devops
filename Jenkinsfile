@@ -49,7 +49,7 @@ when { anyOf { branch 'master'; branch 'devlop' } }
      sh "docker push mukesh236/assignment:$ISOLATION_ID"
 }
   }
-  stage("check for running container"){
+  stage("staging enviroment"){
   when { branch 'master' }
       agent {label 'slave_ubuntu'} 
  steps {
@@ -63,6 +63,19 @@ when { anyOf { branch 'master'; branch 'devlop' } }
                                                '''
 }
   }
-
+stage("production enviroment"){
+  when { branch 'master' }
+      agent {label 'slave_02'} 
+ steps {
+     sh '''if [ $(docker inspect -f '{{.State.Running}}' mukesh-devops) = "true" ]; then
+  docker rm -f mukesh-devops
+  fi
+                                               if [ "$(docker ps -aq -f status=exited -f name=mukesh-devops)" ]; then
+                                                   docker rm mukesh-devops
+                                               fi
+                                                   docker run -d -p 8000:8000 --name mukesh-devops mukesh236/assignment
+                                               '''
+}
+  }
 }
 }
